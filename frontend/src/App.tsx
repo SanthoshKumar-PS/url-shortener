@@ -1,6 +1,6 @@
-import { Home } from "lucide-react";
 import { Routes, Route } from "react-router-dom";
 import RedirectPage from "./pages/RedirectPage";
+import Home from "./pages/Home";
 
 function App() {
   return (
