@@ -39,7 +39,7 @@ app.get("/checkHost", (req, res) => {
 });
 
 
-const BACKEND_PORT = 3000;
+const BACKEND_PORT = 5000;
 app.listen(BACKEND_PORT, () => {
   console.log("Running on port " + BACKEND_PORT);
 });
