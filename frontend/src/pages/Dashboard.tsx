@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -10,14 +10,42 @@ import {
 } from "@/components/ui/table"
 import Pagination from '@/components/Pagination';
 import { useDebounce } from '@/components/DebounceSearch';
+import axios from 'axios';
+import type { UrlShortenerType } from '@/types/TableTypes';
 const Dashboard = () => {
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [data,setData] = useState<UrlShortenerType[]>([])
 
-  const [searchParams, setSearchParams] = useState<string>("");
-  const debounceValue = useDebounce(searchParams,500);
-  const [totalOrdersCount,setTotalOrdersCount] = useState<number>(0);
-  const [pageNo,setPageNo] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [limit,setLimit] = useState<number>(5);
+    const [searchParams, setSearchParams] = useState<string>("");
+    const debounceValue = useDebounce(searchParams,500);
+    const [totalOrdersCount,setTotalOrdersCount] = useState<number>(0);
+    const [pageNo,setPageNo] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
+    const [limit,setLimit] = useState<number>(5);
+
+  const handleGetAllData = async () => {
+    try {
+        setIsLoading(true);
+        const response = await axios.get(`${BACKEND_URL}/api/links`,{
+            params:{
+                pageNo,
+                limit,
+                search:debounceValue
+            }
+        });
+        console.log("Response recieved: ",response.data)
+    } catch (error:any) {
+        console.log("Error occured while fetching data")
+        //TODO: Toast
+    } finally{
+        setIsLoading(false);
+    }
+  }
+
+  useEffect(()=>{
+
+  },[pageNo, limit, ])
 
   return (
     <div className='min-h-screen w-full bg-gradient-to-br from-blue-100/30 via-blue-200/70 to-blue-100/50 p-4 md:p-6 lg:p-8 space-y-6'>

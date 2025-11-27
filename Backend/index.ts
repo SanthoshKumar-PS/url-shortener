@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
-
+import {apiRouter} from './routes/apiRouter'
+import {shortenerRouter} from './routes/shortenerRouter'
 const prisma = new PrismaClient();
 const app = express();
 
@@ -13,8 +14,6 @@ app.use(
   cors({
     origin: function (origin, callback) {
       const allowAll = !origin || allowedOrigins.includes(origin);
-      // console.log("Incoming Origin:", origin);
-
       if (allowAll) {
         callback(null, true);
       } else {
@@ -37,6 +36,9 @@ app.get("/checkHost", (req, res) => {
         : "Production server is running",
   });
 });
+
+app.use('/',shortenerRouter)
+app.use('/api/links',apiRouter)
 
 
 const BACKEND_PORT = 5000;

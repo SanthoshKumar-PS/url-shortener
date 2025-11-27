@@ -12,5 +12,7 @@ model UrlShortener {
   id Int @id @default(autoincrement())
   longUrl String
   shortCode String?
+  totalClicks Int @default(0)
   createdAt DateTime @default(now())
+  lastClickedAt DateTime @updatedAt
 }
