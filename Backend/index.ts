@@ -8,8 +8,8 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://url-shortener-psi-two.vercel.app/",
-  "https://url-shortener-hdsvs2239-santhosh-kumars-projects-fb5730f0.vercel.app/"
+  "https://url-shortener-psi-two.vercel.app",
+  "https://url-shortener-hdsvs2239-santhosh-kumars-projects-fb5730f0.vercel.app"
 ];
 
 app.use(
