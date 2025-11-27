@@ -2,7 +2,7 @@ import { Spinner } from '@/components/Spinner';
 import {type UrlShortenerType } from '@/types/TableTypes';
 import axios from 'axios';
 import { div } from 'framer-motion/client';
-import { Link, LinkIcon } from 'lucide-react';
+import { Check, Copy, Link, LinkIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import {motion} from 'framer-motion'
@@ -11,8 +11,16 @@ const StatsPage = () => {
   const {shorten} = useParams<{shorten:string}>();
   const [data, setData] = useState<UrlShortenerType|null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
   const navigate = useNavigate()
 
+  const handleCopy  = async (shortenUrl:string) => {
+    const fullRedirectUrl = `${window.location.origin}/${shortenUrl}`;
+    await navigator.clipboard.writeText(fullRedirectUrl);
+    setCopied(true);
+    //TODO:Show Toast or update user
+    setTimeout(()=>setCopied(false),1500)
+  } 
 
   const getDataByShorten = async () => {
     try {
@@ -56,7 +64,17 @@ const StatsPage = () => {
             <LinkIcon className="w-6 h-6 text-blue-500" />
             <h2 className="text-lg md:text-xl font-semibold text-gray-700">Short Code</h2>
           </div>
-          <p className="mt-1 text-lg md:text-xl font-mono font-semibold text-blue-600">{data.shortCode}</p>
+
+          <div className='flex justify-between items-center'>
+            <p className="mt-1 text-lg md:text-xl font-mono font-semibold text-blue-600">{data.shortCode}</p>
+            <div
+              className='rounded-xl bg-gray-200/40 border-2 border-gray-300/60 p-2 hover:bg-blue-500 hover:text-white transition-all duration-300'
+              onClick={()=>handleCopy(data.shortCode)}
+            >
+              {copied? <Check className='w-5 h-5 '/>:<Copy className='w-5 h-5 '/>}
+
+            </div>
+          </div>
 
           <div>
             <h2 className="text-md lg:text-lg font-medium text-gray-500">Original URL</h2>

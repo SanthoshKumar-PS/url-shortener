@@ -13,7 +13,8 @@ const Home = () => {
   const [copied, setCopied] = useState<boolean>(false);
   const navigate = useNavigate();
   const handleCopy  = async () => {
-    await navigator.clipboard.writeText(shortenUrl!);
+    const fullRedirectUrl = `${window.location.origin}/${shortenUrl}`;
+    await navigator.clipboard.writeText(fullRedirectUrl);
     setCopied(true);
     //TODO:Show Toast or update user
     setTimeout(()=>setCopied(false),1500)
@@ -58,9 +59,9 @@ const Home = () => {
             <div className='flex flex-col justify-center items-center'>
               <p className='text-gray-700/60 text-md md:text-lg'>Your shortened URL:</p>
               <motion.h3
-            initial={{scale:0}}
-            animate={{scale:1}} 
-              className='text-blue-500 text-lg md:text-xl font-medium'>{shortenUrl}</motion.h3>
+                initial={{scale:0}}
+                animate={{scale:1}} 
+                className='text-blue-500 text-lg md:text-xl font-medium'>{shortenUrl}</motion.h3>
               <div
                 className='absolute right-10 top-1/2 -translate-y-1/2 rounded-xl bg-gray-200/40 border-2 border-gray-300/60 p-3 hover:bg-blue-500 hover:text-white transition-all duration-300'
                 onClick={()=>handleCopy()}

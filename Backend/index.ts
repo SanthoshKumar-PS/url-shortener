@@ -28,8 +28,8 @@ app.use(
 
 app.use(express.json());
 
-app.get("/checkHost", (req, res) => {
-  return res.json({
+app.get("/healthz", (req, res) => {
+  return res.status(200).json({
     message:
       process.env.NODE_ENV === "development"
         ? "Development server is running"
