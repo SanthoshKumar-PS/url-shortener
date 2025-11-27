@@ -61,9 +61,22 @@ export const getAllData = async (req:any,res:any) => {
 
 export const getStatsData = async (req:any,res:any) => {
     try {
+        const {shorten} = req.params;
+        console.log("Shorten String: ",shorten);
+        const urlDetails = await prisma.urlShortener.findFirst({
+            where:{
+                shortCode:shorten
+            }
+        })
+        if(!urlDetails){
+            return res.status(404).json({message:"Data not found",urlDetails:null})
+        }
+        console.log("Data feched for shorten: ",urlDetails)
+        return res.status(200).json({message:"Data found", urlDetails:urlDetails})
         
     } catch (error:any) {
-        
+        console.log("Error occured while fetching data: ", error.message);
+        return res.status(500).json({message:"Internal Server Error",urlDetails:null})
     }   
 }
 

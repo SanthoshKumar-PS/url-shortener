@@ -16,7 +16,7 @@ import { div } from 'framer-motion/client';
 import { Spinner } from '@/components/Spinner';
 import { useNavigate } from 'react-router-dom';
 import {motion} from 'framer-motion'
-import { Trash2 } from 'lucide-react';
+import { FolderOpen, Trash2 } from 'lucide-react';
 
 const Dashboard = () => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -83,14 +83,17 @@ const Dashboard = () => {
         </p>
 
         <div className="w-full max-w-3xl flex justify-center mx-auto gap-2 flex flex-col md:flex-row justify-center items-center">
-            <input
-                type="text"
-                value={searchParams}
-                onChange={(e)=>setSearchParams(e.target.value)}
-                placeholder="Enter long URL..."
-                className="w-full px-4 py-3 rounded-lg shadow bg-white border border-gray-300
-                focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 outline-none "
-            />
+            <div className='w-full relative'>
+                <input
+                    type="text"
+                    value={searchParams}
+                    onChange={(e)=>setSearchParams(e.target.value)}
+                    placeholder="Search..."
+                    className="w-full px-4 py-3 rounded-lg shadow bg-white border border-gray-300
+                    focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 outline-none "
+                />
+            </div>
+
             <motion.button 
                 whileHover={{scale:1.05}}
                 whileTap={{scale:0.95}}
@@ -113,30 +116,38 @@ const Dashboard = () => {
                 <Table className="min-w-full ">
                 <TableHeader className="bg-gray-100">
                     <TableRow>
-                    <TableHead className="w-[140px] text-sm font-semibold text-gray-700">
-                        Shortened URL
-                    </TableHead>
+                        <TableHead className="w-[140px] text-sm font-semibold text-gray-700">
+                            Shortened URL
+                        </TableHead>
 
-                    <TableHead className="text-sm font-semibold text-gray-700">
-                        Long URL
-                    </TableHead>
+                        <TableHead className="text-sm font-semibold text-gray-700">
+                            Long URL
+                        </TableHead>
 
-                    <TableHead className="text-sm font-semibold text-gray-700 text-center">
-                        Total Clicks
-                    </TableHead>
+                        <TableHead className="text-sm font-semibold text-gray-700 text-center">
+                            Total Clicks
+                        </TableHead>
 
-                    <TableHead className="text-sm font-semibold text-gray-700 text-center">
-                        Last Used At
-                    </TableHead>
-                    <TableHead className="text-sm font-semibold text-gray-700 text-center">
-                        Actions
-                    </TableHead>
+                        <TableHead className="text-sm font-semibold text-gray-700 text-center">
+                            Last Used At
+                        </TableHead>
+                        <TableHead className="text-sm font-semibold text-gray-700 text-center">
+                            View
+                        </TableHead>
+                        <TableHead className="text-sm font-semibold text-gray-700 text-center">
+                            Actions
+                        </TableHead>
                     </TableRow>
                 </TableHeader>
 
                 <TableBody >
                     {datas.map((data,index)=>(
-                        <TableRow key={data.id} className="hover:bg-gray-50 transition">
+                        <TableRow key={data.id} className="hover:bg-gray-100 transition"
+                            onClick={(e)=>{
+                                e.stopPropagation();
+                                navigate(`/code/${data.shortCode}`)
+                            }}
+                        >
                             <TableCell className="font-medium text-blue-600">
                                 {data.shortCode}
                             </TableCell>
@@ -152,14 +163,26 @@ const Dashboard = () => {
                             <TableCell className="text-center text-gray-600">
                                 {new Date(data.createdAt).toLocaleDateString('en-IN')}
                             </TableCell>
-                            <TableCell className="flex justify-center text-red-400 hover:text-red-600" 
-                                onClick={()=>{
-                                    handleDeleteData(data.id);
-                                }}
-                            >
-                                <span className='p-2'>
-                                    <Trash2 className='w-4 h-4 '/>
-                                </span>
+                            <TableCell className="text-center">
+                                <div className="flex justify-center">
+                                    <span className="p-2 text-blue-400 hover:text-blue-600">
+                                        <FolderOpen className="w-4 h-4" />
+                                    </span>
+                                </div>
+                            </TableCell>
+
+                            <TableCell className="text-center">
+                                <div className="flex justify-center">
+                                    <span 
+                                        className="p-2 text-red-400 hover:text-red-600"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteData(data.id);
+                                        }}
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </span>
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -184,7 +207,7 @@ const Dashboard = () => {
 
           {/* No Of Rows */}
           <div className="w-full md:w-auto flex justify-center items-center md:justify-end gap-3">
-            <span className="font-medium">Results: {Math.min((pageNo-1)*limit+1,totalDataCount)} - {Math.min(totalDataCount,pageNo*limit)} of {totalDataCount}</span>
+            <span className="font-medium text-gray-700">Results: {Math.min((pageNo-1)*limit+1,totalDataCount)} - {Math.min(totalDataCount,pageNo*limit)} of {totalDataCount}</span>
             <select
                 className="border border-gray-300 rounded-md shadow-md px-1 py-1 bg-white"
                 value={limit}
