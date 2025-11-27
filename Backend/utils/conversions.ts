@@ -27,3 +27,20 @@ export function Base62ToNumber(str: string): number {
   }
   return number;
 }
+
+export function generateShortCode(id: number): string {
+  const base = NumberToBase62(id);
+
+  const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const digits = "0123456789";
+
+  const L1 = letters[Math.floor(Math.random() * letters.length)];
+  const D1 = digits[Math.floor(Math.random() * digits.length)];
+
+  return `${L1}${D1}${base}`;
+}
+
+export function decodeShortCode(shortCode: string): number {
+  const base62 = shortCode.slice(2); 
+  return Base62ToNumber(base62);
+}
