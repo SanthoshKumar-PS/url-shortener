@@ -42,7 +42,11 @@ const StatsPage = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-blue-100/30 via-blue-200/70 to-blue-100/50 p-4">
-      <div className="container mx-auto max-w-3xl space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="container mx-auto max-w-3xl space-y-6">
         <h1 className="text-3xl md:text-4xl font-bold text-center bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
           Link Details
         </h1>
@@ -114,7 +118,7 @@ const StatsPage = () => {
         </motion.div>
 
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

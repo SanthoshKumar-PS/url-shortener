@@ -2,9 +2,7 @@ import { ArrowUpRight, Check, Copy, Layers2 } from 'lucide-react';
 import {motion} from 'framer-motion';
 import { useState } from 'react';
 import UrlShortener from '../components/UrlShortener';
-import axios from 'axios';
 import { Spinner } from '@/components/Spinner';
-import { div } from 'framer-motion/client';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -25,7 +23,11 @@ const Home = () => {
 
   return (
     <div className='min-h-screen flex justify-center items-center bg-gradient-to-br from-blue-100/30 via-blue-200/70 to-blue-100/50'>
-      <div className='flex flex-col justify-center items-center gap-4 md:gap-6 lg:gap-8 px-3'>
+      <motion.div 
+      initial={{ opacity: 0, y: 60 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className='flex flex-col justify-center items-center gap-4 md:gap-6 lg:gap-8 px-3'>
         <motion.div
           onClick={()=>{
             navigate('/dashboard')
@@ -48,9 +50,6 @@ const Home = () => {
         <UrlShortener shortenUrl={shortenUrl} setShortenUrl={setShortenUrl} isLoading={isLoading} setIsLoading={setIsLoading} />
 
         <motion.div
-          initial={{y:30,opacity:0}}
-          animate={{y:0,opacity:1}}
-          transition={{duration:1}}
           className='relative w-full p-4 md:p-6 space-y-2 bg-white  border border-gray-200 flex justify-center items-center rounded-md'
         >
           {isLoading?(
@@ -78,7 +77,7 @@ const Home = () => {
             </div>
           )}
         </motion.div>
-      </div>
+      </motion.div>
 
     </div>
 )
