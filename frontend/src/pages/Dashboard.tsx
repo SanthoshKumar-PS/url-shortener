@@ -92,7 +92,10 @@ const Dashboard = () => {
                     <input
                         type="text"
                         value={searchParams}
-                        onChange={(e)=>setSearchParams(e.target.value)}
+                        onChange={(e)=>{
+                            setSearchParams(e.target.value);
+                            setPageNo(1)
+                        }}
                         placeholder="Search..."
                         className="w-full px-4 py-3 rounded-lg shadow bg-white border border-gray-300
                         focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 outline-none "
