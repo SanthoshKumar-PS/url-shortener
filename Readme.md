@@ -66,9 +66,9 @@ efficient backend processing.
 ## 📸 Screenshots
 
 ``` markdown
-![Home Page](Frontend/screenshots/home.png)
-![Dashboard](Frontend/screenshots/dashboard.png)
-![Stats Page](Frontend/screenshots/stats.png)
+![Home Page](frontend/screenshots/home.png)
+![Dashboard](frontend/screenshots/dashboard.png)
+![Stats Page](frontend/screenshots/stats.png)
 ```
 
 ------------------------------------------------------------------------
